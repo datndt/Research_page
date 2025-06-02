@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wholesale - Corporate Customer Modeling in Banking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc; 
+            color: #2d3748;
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link.active, .nav-link:hover {
+            border-bottom-color: #3182ce;
+            color: #2c5282;
+        }
+        .content-section {
+            display: block; /* All sections are visible by default */
+            scroll-margin-top: 80px; /* Adjust based on sticky header height */
+            margin-bottom: 3rem; /* Space between sections */
+        }
+        /* .content-section.active class is no longer needed for display control */
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .framework-box {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .framework-box:hover {
+            background-color: #ebf8ff;
+            border-color: #63b3ed;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <h1 class="text-xl font-bold text-sky-800">Corporate Customer Modeling in Banking</h1>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#overview" class="nav-link active">Overview</a>
+                    <a href="#framework" class="nav-link">Framework</a>
+                    <a href="#benefits" class="nav-link">Benefits</a>
+                    <a href="#challenges" class="nav-link">Challenges</a>
+                    <a href="#future" class="nav-link">Future</a>
+                </div>
+                <div class="md:hidden">
+                    <select id="mobile-nav" class="block w-full bg-white border border-gray-300 rounded-md py-2 px-3 shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <option value="#overview">Overview</option>
+                        <option value="#framework">Framework</option>
+                        <option value="#benefits">Benefits</option>
+                        <option value="#challenges">Challenges</option>
+                        <option value="#future">Future</option>
+                    </select>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section id="overview" class="content-section">
+            <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+                <h1 class="text-4xl font-bold text-gray-800 mb-4">A Strategic Panorama: Reimagining Corporate Customer Modeling</h1>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto mb-6">This interactive report provides a "helicopter view" of corporate customer modeling in banking. We move beyond operational details to explore the strategic imperatives, frameworks, and future trends that define modern corporate banking. The goal is to equip leaders with the strategic foresight needed to foster sustainable growth and competitive advantage.</p>
+                <div class="p-6 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-2">Key Message for Banking Leaders</h3>
+                    <p class="text-gray-700">Strategic corporate customer modeling is no longer a peripheral activity but a cornerstone of competitive strength. In a landscape of escalating client expectations and technological disruption, the ability to deeply understand, anticipate needs, and proactively manage corporate client relationships is central to strategy. Mastering this discipline offers a clear pathway to sustainable growth, effective risk mitigation, and enduring client loyalty.</p>
+                </div>
+            </div>
+
+            <div class="mt-12 bg-white p-8 rounded-lg shadow-lg">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Corporate vs. Retail Modeling: Key Distinctions</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="border border-gray-200 p-6 rounded-lg">
+                        <h3 class="text-2xl font-semibold mb-4 text-blue-700">🏢 Corporate Clients</h3>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start"><span class="font-bold text-blue-500 mr-2">›</span> <strong>Complex Data:</strong> Intricate legal structures, global operations, and sophisticated financial data.</li>
+                            <li class="flex items-start"><span class="font-bold text-blue-500 mr-2">›</span> <strong>High-Value, Low-Volume:</strong> Fewer clients, but each transaction and relationship is of significantly higher value.</li>
+                            <li class="flex items-start"><span class="font-bold text-blue-500 mr-2">›</span> <strong>Bespoke Solutions:</strong> Requires tailored financial products, structured finance, and advisory services.</li>
+                            <li class="flex items-start"><span class="font-bold text-blue-500 mr-2">›</span> <strong>Relationship-Centric:</strong> The role of the relationship manager is paramount and augmented by models.</li>
+                            <li class="flex items-start"><span class="font-bold text-blue-500 mr-2">›</span> <strong>Complex Risk Profile:</strong> In-depth analysis of financial statements, industry dynamics, and management quality.</li>
+                        </ul>
+                    </div>
+                    <div class="border border-gray-200 p-6 rounded-lg">
+                        <h3 class="text-2xl font-semibold mb-4 text-teal-700">🧑‍🤝‍🧑 Retail Customers</h3>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start"><span class="font-bold text-teal-500 mr-2">›</span> <strong>Simpler Data:</strong> Primarily demographic and individual behavioral data.</li>
+                            <li class="flex items-start"><span class="font-bold text-teal-500 mr-2">›</span> <strong>Low-Value, High-Volume:</strong> Large customer base with smaller, more frequent transactions.</li>
+                            <li class="flex items-start"><span class="font-bold text-teal-500 mr-2">›</span> <strong>Standardized Products:</strong> Focus on standard offerings like mortgages, credit cards, and personal loans.</li>
+                            <li class="flex items-start"><span class="font-bold text-teal-500 mr-2">›</span> <strong>Automation-Centric:</strong> Models often drive automated interactions and decisions.</li>
+                             <li class="flex items-start"><span class="font-bold text-teal-500 mr-2">›</span> <strong>Standardized Risk Profile:</strong> Credit scoring is typically based on standardized metrics.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <section id="framework" class="content-section">
+            <div class="bg-white p-8 rounded-lg shadow-lg">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">The Holistic Corporate Customer Modeling Framework</h2>
+                <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">A comprehensive framework is built on four interdependent pillars. Click on each component to explore its details.</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                    <div id="btn-data" class="framework-box border-2 border-gray-300 p-6 rounded-lg">
+                        <div class="text-4xl mb-2">📊</div>
+                        <h3 class="text-xl font-semibold text-gray-800">Data Ecosystem</h3>
+                    </div>
+                    <div id="btn-analytics" class="framework-box border-2 border-gray-300 p-6 rounded-lg">
+                        <div class="text-4xl mb-2">📈</div>
+                        <h3 class="text-xl font-semibold text-gray-800">Analytical Models</h3>
+                    </div>
+                    <div id="btn-tech" class="framework-box border-2 border-gray-300 p-6 rounded-lg">
+                        <div class="text-4xl mb-2">💻</div>
+                        <h3 class="text-xl font-semibold text-gray-800">Enabling Tech</h3>
+                    </div>
+                    <div id="btn-grc" class="framework-box border-2 border-gray-300 p-6 rounded-lg">
+                        <div class="text-4xl mb-2">🛡️</div>
+                        <h3 class="text-xl font-semibold text-gray-800">GRC Overlay</h3>
+                    </div>
+                </div>
+                <div id="framework-details" class="mt-8 p-6 border border-gray-200 rounded-lg bg-gray-50 min-h-[300px]">
+                    </div>
+            </div>
+        </section>
+
+        <section id="benefits" class="content-section">
+            <div class="bg-white p-8 rounded-lg shadow-lg">
+                 <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">Strategic Benefits of Advanced Insights</h2>
+                 <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">Transforming data into intelligence unlocks tangible business outcomes across risk, products, relationships, and financial performance.</p>
+                <div class="grid lg:grid-cols-5 gap-8">
+                    <div class="lg:col-span-2">
+                        <div class="chart-container mx-auto">
+                            <canvas id="benefitsChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="card bg-blue-50 p-6 rounded-lg">
+                            <h3 class="font-bold text-xl text-blue-800 mb-2">Enhanced Risk Management</h3>
+                            <p class="text-gray-700">Proactively identify, measure, and mitigate credit, fraud, and operational risks with forward-looking models.</p>
+                        </div>
+                        <div class="card bg-green-50 p-6 rounded-lg">
+                            <h3 class="font-bold text-xl text-green-800 mb-2">Optimized Offerings</h3>
+                            <p class="text-gray-700">Deliver personalized product recommendations and dynamic pricing strategies that align with client needs.</p>
+                        </div>
+                        <div class="card bg-yellow-50 p-6 rounded-lg">
+                            <h3 class="font-bold text-xl text-yellow-800 mb-2">Deeper Relationships</h3>
+                            <p class="text-gray-700">Achieve a 360-degree client view to foster loyalty, increase satisfaction, and reduce churn.</p>
+                        </div>
+                         <div class="card bg-red-50 p-6 rounded-lg">
+                            <h3 class="font-bold text-xl text-red-800 mb-2">Improved Financials</h3>
+                            <p class="text-gray-700">Boost revenue through targeted strategies, enhance profitability analysis, and increase operational efficiency.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="challenges" class="content-section">
+            <div class="bg-white p-8 rounded-lg shadow-lg">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">Navigating the Complexities</h2>
+                <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">Successful implementation requires overcoming significant hurdles in data, modeling, regulation, ethics, and organization.</p>
+                <div id="accordion">
+                    </div>
+            </div>
+        </section>
+
+        <section id="future" class="content-section">
+            <div class="bg-white p-8 rounded-lg shadow-lg">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">The Future Trajectory</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="card p-6 border-t-4 border-blue-500 rounded-b-lg bg-gray-50">
+                        <h3 class="text-xl font-bold mb-2">Ascendancy of AI & GenAI</h3>
+                        <p class="text-gray-600">AI is becoming a core component of business and operational models, with GenAI set to transform knowledge-intensive workflows like financial analysis and client advisory.</p>
+                    </div>
+                    <div class="card p-6 border-t-4 border-green-500 rounded-b-lg bg-gray-50">
+                        <h3 class="text-xl font-bold mb-2">Hyper-Personalization at Scale</h3>
+                        <p class="text-gray-600">The drive to treat each corporate client as a "segment of one," offering highly tailored advice and bespoke product bundles powered by AI-augmented relationship managers.</p>
+                    </div>
+                    <div class="card p-6 border-t-4 border-purple-500 rounded-b-lg bg-gray-50">
+                        <h3 class="text-xl font-bold mb-2">Modern Data Architectures</h3>
+                        <p class="text-gray-600">A shift towards flexible, cloud-based data platforms (lakehouses, data mesh) is critical to support real-time processing and advanced AI model deployment.</p>
+                    </div>
+                    <div class="card p-6 border-t-4 border-yellow-500 rounded-b-lg bg-gray-50">
+                        <h3 class="text-xl font-bold mb-2">Rise of Explainable AI (XAI)</h3>
+                        <p class="text-gray-600">In high-stakes decisions like credit approval, XAI is becoming non-negotiable to ensure transparency, meet regulatory demands, and build client trust.</p>
+                    </div>
+                    <div class="card p-6 border-t-4 border-red-500 rounded-b-lg bg-gray-50">
+                        <h3 class="text-xl font-bold mb-2">Ethical AI Governance</h3>
+                        <p class="text-gray-600">Proactive frameworks focusing on privacy, fairness, and accountability are essential to manage risk and maintain the trust of corporate clients.</p>
+                    </div>
+                     <div class="card p-6 border-t-4 border-indigo-500 rounded-b-lg bg-gray-50">
+                        <h3 class="text-xl font-bold mb-2">The Future-Ready Bank</h3>
+                        <p class="text-gray-600">The winning institution will be agile, insightful, client-centric, and risk-aware, leveraging modeling to create a resilient competitive advantage.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mobileNav = document.getElementById('mobile-nav');
+
+    function navigateTo(hash) {
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+        });
+
+        if (hash) {
+            const targetSection = document.querySelector(hash);
+            const targetLink = document.querySelector(`a[href="${hash}"]`);
+            
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }
+            if (targetLink) {
+                targetLink.classList.add('active');
+            }
+            if(mobileNav.value !== hash){
+                mobileNav.value = hash;
+            }
+        }
+    }
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const hash = e.target.getAttribute('href');
+            navigateTo(hash);
+            // Optionally, update URL hash without page jump for better UX if desired
+            // history.pushState(null, null, hash); 
+        });
+    });
+
+    mobileNav.addEventListener('change', (e) => {
+        navigateTo(e.target.value);
+    });
+
+    // If there's a hash in the URL on page load, scroll to it
+    if (window.location.hash) {
+        // Timeout to ensure layout is stable before scrolling
+        setTimeout(() => {
+             navigateTo(window.location.hash);
+        }, 100);
+    }
+
+
+    const frameworkDetails = {
+        data: {
+            title: '📊 The Corporate Client Data Ecosystem',
+            content: `The foundation of any model is a rich, diverse, and well-governed data ecosystem. This moves beyond internal records to create a true 360-degree view.`,
+            points: [
+                '<strong>Firmographic & Structural:</strong> Industry, company size, ownership structures, and key decision-makers.',
+                '<strong>Financial Statement:</strong> Income statements, balance sheets, and key ratios for credit and health assessment.',
+                '<strong>Transactional & Behavioral:</strong> Payment patterns, digital channel engagement, and service usage.',
+                '<strong>Interaction & Relationship:</strong> CRM logs, meeting notes, and client feedback for sentiment analysis.',
+                '<strong>External & Alternative:</strong> Market data, news sentiment, and ESG scores for contextual risk assessment.'
+            ]
+        },
+        analytics: {
+            title: '📈 Core Analytical Models and Techniques',
+            content: 'An ecosystem of interconnected models is used to describe, predict, and prescribe actions, transforming data into strategic intelligence.',
+            points: [
+                '<strong>Segmentation & Profiling:</strong> Grouping clients by shared needs and behaviors for targeted strategies.',
+                '<strong>Credit Risk Modeling (PD, LGD, EAD):</strong> Quantifying default likelihood and potential loss for prudent lending.',
+                '<strong>Fraud Detection:</strong> Identifying anomalous activities in real-time to prevent financial crime.',
+                '<strong>Customer Lifetime Value (CLV):</strong> Estimating the total future profitability to prioritize high-value relationships.',
+                '<strong>Churn Prediction:</strong> Identifying at-risk clients for proactive retention efforts.',
+                '<strong>Next Best Offer/Action (NBO/NBA):</strong> Recommending the most relevant products or engagement strategies.'
+            ],
+            chart: true
+        },
+        tech: {
+            title: '💻 Enabling Technologies',
+            content: 'Technology is the critical enabler that powers the entire modeling lifecycle, from data collection to insight delivery.',
+            points: [
+                '<strong>CRM Systems:</strong> The central hub for client data, providing a 360-degree view.',
+                '<strong>Advanced Analytics Platforms:</strong> Tools for data scientists to build, validate, and deploy models.',
+                '<strong>AI & Machine Learning:</strong> The computational engine for predictive accuracy and automation.',
+                '<strong>Generative AI:</strong> The next frontier for automating content creation, summarizing reports, and powering intelligent assistants.',
+                '<strong>Customer Communication Management (CCM):</strong> Platforms for delivering personalized, timely, and relevant client communications.'
+            ]
+        },
+        grc: {
+            title: '🛡️ Governance, Risk, and Compliance (GRC) Overlay',
+            content: 'A robust GRC framework is not an add-on but an indispensable overlay ensuring responsible, secure, and compliant use of data and models.',
+            points: [
+                '<strong>Data Governance:</strong> Ensuring data quality, integrity, security, and ethical use.',
+                '<strong>Model Risk Management (MRM):</strong> Validating model accuracy, stability, and fitness for purpose, including managing "black box" risks with Explainable AI (XAI).',
+                '<strong>Regulatory Adherence:</strong> Complying with complex regulations like Basel III, IFRS 9, and data privacy laws (GDPR).',
+                '<strong>Ethical Principles:</strong> Upholding standards to prevent algorithmic bias and ensure fairness and transparency.'
+            ]
+        }
+    };
+    
+    const detailsContainer = document.getElementById('framework-details');
+    
+    function updateFrameworkDetails(key) {
+        const detail = frameworkDetails[key];
+        if (!detail) return;
+        
+        let pointsHTML = detail.points.map(point => `<li class="flex items-start mb-2"><span class="font-bold text-blue-500 mr-2">›</span><span>${point}</span></li>`).join('');
+        
+        let chartHTML = '';
+        if (detail.chart) {
+            chartHTML = `<div class="w-full lg:w-1/2 mt-4 lg:mt-0 lg:pl-6"><div class="chart-container !h-64"><canvas id="analyticsModelChart"></canvas></div></div>`;
+        }
+
+        detailsContainer.innerHTML = `
+            <div class="flex flex-col lg:flex-row">
+                <div class="w-full ${detail.chart ? 'lg:w-1/2' : ''}">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-3">${detail.title}</h3>
+                    <p class="text-gray-600 mb-4">${detail.content}</p>
+                    <ul class="text-gray-700">${pointsHTML}</ul>
+                </div>
+                ${chartHTML}
+            </div>
+        `;
+        
+        if (detail.chart) {
+           renderAnalyticsChart();
+        }
+    }
+
+    document.getElementById('btn-data').addEventListener('click', () => updateFrameworkDetails('data'));
+    document.getElementById('btn-analytics').addEventListener('click', () => updateFrameworkDetails('analytics'));
+    document.getElementById('btn-tech').addEventListener('click', () => updateFrameworkDetails('tech'));
+    document.getElementById('btn-grc').addEventListener('click', () => updateFrameworkDetails('grc'));
+
+    updateFrameworkDetails('data');
+
+    const challengesData = [
+        { title: 'Data Governance & Quality', content: 'Challenge: Integrating complex, siloed corporate data while ensuring accuracy and timeliness. <br><strong>Mitigation:</strong> Establish a dedicated data governance council, implement Master Data Management (MDM), and invest in data quality tools.' },
+        { title: 'Model Risk & Interpretability', content: 'Challenge: The "black box" nature of complex AI models used for high-stakes decisions and managing model drift. <br><strong>Mitigation:</strong> Implement robust Model Risk Management (MRM) frameworks, utilize Explainable AI (XAI) techniques for transparency, and enforce strict purpose limitation.' },
+        { title: 'Regulatory Compliance', content: 'Challenge: Adhering to evolving regulations like IFRS 9, Basel III, and GDPR with advanced, often opaque, models. <br><strong>Mitigation:</strong> Proactively engage with regulators, embed compliance into model design, and invest in RegTech solutions for automated monitoring.' },
+        { title: 'Ethical Considerations', content: 'Challenge: Protecting sensitive client data and ensuring AI models are free from bias that could unfairly disadvantage certain businesses. <br><strong>Mitigation:</strong> Develop and enforce a corporate AI ethics charter, conduct regular bias audits, and ensure human oversight for critical decisions.' },
+        { title: 'Implementation & Change', content: 'Challenge: High costs, scarcity of specialized talent, and overcoming organizational resistance to new data-driven workflows. <br><strong>Mitigation:</strong> Secure strong leadership sponsorship, adopt a phased implementation for early wins, and invest in upskilling and training.' },
+    ];
+
+    const accordionContainer = document.getElementById('accordion');
+    challengesData.forEach((item, index) => {
+        const accordionItem = document.createElement('div');
+        accordionItem.className = 'border-b border-gray-200';
+        accordionItem.innerHTML = `
+            <button class="accordion-toggle w-full text-left py-4 px-2 flex justify-between items-center focus:outline-none">
+                <span class="text-lg font-semibold text-gray-700">${item.title}</span>
+                <span class="transform transition-transform duration-300">▼</span>
+            </button>
+            <div class="accordion-content px-2 pb-4">
+                <p class="text-gray-600">${item.content}</p>
+            </div>
+        `;
+        accordionContainer.appendChild(accordionItem);
+    });
+
+    const accordionToggles = document.querySelectorAll('.accordion-toggle');
+    accordionToggles.forEach(toggle => {
+        toggle.addEventListener('click', () => {
+            const content = toggle.nextElementSibling;
+            const icon = toggle.querySelector('span:last-child');
+            
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = null);
+                document.querySelectorAll('.accordion-toggle span:last-child').forEach(i => i.style.transform = 'rotate(0deg)');
+                content.style.maxHeight = content.scrollHeight + "px";
+                icon.style.transform = 'rotate(180deg)';
+            }
+        });
+    });
+
+    const benefitsCtx = document.getElementById('benefitsChart').getContext('2d');
+    new Chart(benefitsCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Enhanced Risk Management', 'Optimized Offerings', 'Deeper Relationships', 'Improved Financials'],
+            datasets: [{
+                label: 'Strategic Benefit Areas',
+                data: [40, 25, 20, 15],
+                backgroundColor: [
+                    'rgba(59, 130, 246, 0.7)',
+                    'rgba(16, 185, 129, 0.7)',
+                    'rgba(245, 158, 11, 0.7)',
+                    'rgba(239, 68, 68, 0.7)'
+                ],
+                borderColor: [
+                    'rgba(59, 130, 246, 1)',
+                    'rgba(16, 185, 129, 1)',
+                    'rgba(245, 158, 11, 1)',
+                    'rgba(239, 68, 68, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                title: {
+                    display: true,
+                    text: 'Key Areas of Impact from Corporate Modeling',
+                    font: { size: 16 }
+                }
+            }
+        }
+    });
+
+    function renderAnalyticsChart() {
+        const analyticsCtx = document.getElementById('analyticsModelChart')?.getContext('2d');
+        if (!analyticsCtx) return;
+        new Chart(analyticsCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Segmentation', 'Credit Risk', 'Fraud', 'CLV', 'Churn', 'NBO/NBA'],
+                datasets: [{
+                    label: 'Relative Complexity & Impact',
+                    data: [6, 9, 8, 7, 7, 8],
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Model Impact vs. Complexity' }
+                },
+                scales: {
+                    x: { beginAtZero: true }
+                }
+            }
+        });
+    }
+
+});
+</script>
+</body>
+</html>

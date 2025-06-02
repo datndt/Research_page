@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wholesale - Credit Bureau Data</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .section-title {
+            font-size: 1.875rem; /* text-3xl */
+            font-weight: 700;
+            color: #1e293b; /* slate-800 */
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .section-intro {
+            max-width: 48rem; /* max-w-3xl */
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            color: #475569; /* slate-600 */
+            margin-bottom: 3rem;
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+        }
+        .nav-button.active {
+            background-color: #0369a1; /* sky-700 */
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .content-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-sky-800">Credit Bureau Data</h1>
+            <div class="hidden md:flex space-x-2">
+                <a href="#data-ecosystem" class="px-3 py-2 text-slate-600 hover:text-sky-700 font-medium rounded-md">Data Ecosystem</a>
+                <a href="#score-explorer" class="px-3 py-2 text-slate-600 hover:text-sky-700 font-medium rounded-md">Score Explorer</a>
+                <a href="#risk-model" class="px-3 py-2 text-slate-600 hover:text-sky-700 font-medium rounded-md">Risk Modeling</a>
+                <a href="#holistic-view" class="px-3 py-2 text-slate-600 hover:text-sky-700 font-medium rounded-md">Holistic View</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <section class="text-center mb-20">
+            <h2 class="text-4xl font-extrabold text-slate-800 mb-4">The Strategic Imperative of Credit Bureau Data</h2>
+            <p class="max-w-4xl mx-auto text-lg text-slate-600">
+                An interactive exploration of the key data, variables, and models that form the foundation of modern corporate credit risk assessment. This dashboard translates a detailed industry report into an accessible, hands-on experience.
+            </p>
+        </section>
+
+        <section id="data-ecosystem" class="mb-20 scroll-mt-20">
+            <h2 class="section-title">The Data Ecosystem</h2>
+            <p class="section-intro">
+                Corporate credit risk assessment begins with data. Three major bureaus form the bedrock of this ecosystem, each collecting a vast array of information. Click on a bureau to see the core categories of data they gather, which serve as the building blocks for risk analysis.
+            </p>
+            <div id="bureau-cards" class="grid md:grid-cols-3 gap-8">
+            </div>
+        </section>
+
+        <section id="score-explorer" class="mb-20 scroll-mt-20">
+            <h2 class="section-title">Interactive Score Explorer</h2>
+            <p class="section-intro">
+                Bureaus transform raw data into predictive scores that summarize different facets of risk. Use the controls below to select a bureau and explore their key scores. Each score provides a unique lens through which to evaluate a company's financial health, from short-term payment habits to long-term viability.
+            </p>
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <div class="flex flex-wrap justify-center gap-4 mb-8" id="score-bureau-selector">
+                </div>
+                <div id="score-details-container" class="grid lg:grid-cols-2 gap-8 items-start">
+                    <div id="score-details-content" class="min-h-[300px]">
+                        <p class="text-center text-slate-500">Select a bureau and then a score to see details here.</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="scoreComparisonChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="risk-model" class="mb-20 scroll-mt-20">
+            <h2 class="section-title">Building the Risk Model</h2>
+            <p class="section-intro">
+                The ultimate goal of data collection is to quantify risk. The formula $Expected Loss (EL) = PD \times LGD \times EAD$ is central to this process. This section shows how bureau variables are applied to model these three core components. Select a component to see which data categories are most influential.
+            </p>
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <div class="flex justify-center mb-8">
+                    <div id="risk-component-selector" class="flex flex-wrap gap-2 bg-slate-100 p-2 rounded-full">
+                    </div>
+                </div>
+                <div class="grid lg:grid-cols-5 gap-8 items-center">
+                    <div class="lg:col-span-3">
+                        <h3 id="risk-component-title" class="text-2xl font-bold text-slate-800 mb-2"></h3>
+                        <p id="risk-component-description" class="text-slate-600 mb-4"></p>
+                        <div id="risk-component-factors" class="space-y-2"></div>
+                    </div>
+                    <div class="lg:col-span-2 chart-container h-80 md:h-96">
+                        <canvas id="riskComponentChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="holistic-view" class="mb-20 scroll-mt-20">
+            <h2 class="section-title">Achieving a Holistic View</h2>
+            <p class="section-intro">
+                While powerful, bureau data doesn't tell the whole story. A truly robust risk assessment integrates external bureau data with a company's internal financials, the broader economic environment, and qualitative factors. This synergy creates a comprehensive, multi-lens perspective.
+            </p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="content-card">
+                    <h3 class="font-bold text-lg text-sky-800 mb-2">Bureau Data</h3>
+                    <p class="text-sm">Provides external, standardized views on payment behavior, public records, and firmographics. Excellent for scalability and identifying early warning signs.</p>
+                </div>
+                <div class="content-card">
+                    <h3 class="font-bold text-lg text-sky-800 mb-2">Financial Statements</h3>
+                    <p class="text-sm">Offers deep insights into a company's health via liquidity, leverage, and profitability ratios. The "why" behind the numbers.</p>
+                </div>
+                <div class="content-card">
+                    <h3 class="font-bold text-lg text-sky-800 mb-2">Macro & Industry Factors</h3>
+                    <p class="text-sm">Contextualizes risk within the broader economy (GDP, interest rates) and specific industry dynamics (cyclicality, competition).</p>
+                </div>
+                <div class="content-card">
+                    <h3 class="font-bold text-lg text-sky-800 mb-2">Qualitative Factors</h3>
+                    <p class="text-sm">Assesses non-quantifiable elements like management quality, corporate governance, and competitive strategy, which are critical for forward-looking analysis.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-slate-800 text-slate-300 py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; <span id="currentYear"></span> Nhóm Bán buôn. Copyright.</p>
+            <p class="text-sm text-slate-400 mt-2">Credit Bureau Data.</p>
+        </div>
+    </footer>
+
+    <script>
+        const bureauData = {
+            'dnb': {
+                name: 'Dun & Bradstreet',
+                icon: '🏢',
+                dataTypes: [
+                    'Payment History / Trade References (PAYDEX)',
+                    'Public Records (Bankruptcies, Liens, Judgments)',
+                    'Company Demographics & Firmographics',
+                    'Financial Strength Indicators',
+                    'Corporate Linkage & Family Tree Data'
+                ],
+                scores: {
+                    paydex: { name: 'PAYDEX Score', range: '1-100', interpretation: 'Higher = more prompt payment; 80 is on-time.', focus: 'Purely historical payment performance with suppliers.' },
+                    failure: { name: 'D&B Failure Score', range: '1-100', interpretation: 'Lower = higher risk of failure.', focus: 'Predicts likelihood of business failure/bankruptcy in next 12 months.' },
+                    delinquency: { name: 'D&B Delinquency Predictor', range: 'Varies', interpretation: 'Predicts severe payment delinquency.', focus: 'Likelihood of payments being 90+ days late.' },
+                }
+            },
+            'experian': {
+                name: 'Experian Business',
+                icon: '📊',
+                dataTypes: [
+                    'Payment History & Trended Data',
+                    'Public Records & Collections',
+                    'Company Demographics',
+                    'Credit Utilization & Remaining Credit Ratio',
+                    'Business Credit Card Activity & Leasing Data'
+                ],
+                scores: {
+                    intelliscore: { name: 'Intelliscore Plus', range: '1-100', interpretation: 'Higher = lower risk.', focus: '~800 factors including payments, utilization, public records.' },
+                    stability: { name: 'Financial Stability Risk Score', range: '1-5', interpretation: 'Lower = lower risk of failure.', focus: 'Predicts risk of business failure over the next 12 months.' },
+                }
+            },
+            'equifax': {
+                name: 'Equifax Business',
+                icon: '📈',
+                dataTypes: [
+                    'Payment History',
+                    'Public Records',
+                    'Company Demographics',
+                    'Credit Utilization',
+                    'Financial Information (where available)'
+                ],
+                scores: {
+                    payment_index: { name: 'Payment Index', range: '1-100', interpretation: 'Higher = more prompt payment.', focus: 'Measures payment promptness over past 12 months.'},
+                    risk_score: { name: 'Business Credit Risk Score', range: '101-992', interpretation: 'Lower = higher risk.', focus: 'Predicts severe delinquency (90+ days) or charge-off.' },
+                    failure_score: { name: 'Business Failure Score', range: '1,000-1,880', interpretation: 'Lower = higher risk of failure.', focus: 'Predicts likelihood of ceasing operations in next 12 months.'},
+                }
+            }
+        };
+
+        const riskComponentData = {
+            pd: {
+                title: 'Probability of Default (PD)',
+                description: 'The likelihood a borrower will fail to meet debt obligations within a specified timeframe (typically 12 months).',
+                factors: [
+                    'Payment Behavior (e.g., PAYDEX, Days Beyond Terms)',
+                    'Public Records (e.g., Bankruptcies, Liens, Judgments)',
+                    'Credit Utilization',
+                    'Company Demographics (e.g., Age, Industry)',
+                    'Bureau Failure/Delinquency Scores'
+                ],
+                chartData: {
+                    labels: ['Payment Behavior', 'Public Records', 'Credit Utilization', 'Firmographics', 'Bureau Scores'],
+                    data: [35, 25, 15, 10, 15]
+                }
+            },
+            lgd: {
+                title: 'Loss Given Default (LGD)',
+                description: 'The proportion of an exposure expected to be lost if a borrower defaults. Bureau data offers contextual insights rather than direct measurement.',
+                factors: [
+                    'Public Records on Liens (indicates encumbered assets)',
+                    'Company Demographics (Industry influences asset types)',
+                    'Corporate Linkage (Group structure can affect recovery)',
+                    'Jurisdiction (influences legal recovery process)'
+                ],
+                chartData: {
+                    labels: ['Asset Encumbrance (Liens)', 'Industry/Asset Type', 'Jurisdiction', 'Corporate Structure'],
+                    data: [40, 30, 20, 10]
+                }
+            },
+            ead: {
+                title: 'Exposure at Default (EAD)',
+                description: 'The predicted outstanding amount of a credit facility at the moment of default. Critical for revolving credit like lines of credit or credit cards.',
+                factors: [
+                    'Credit Utilization (Current balance vs. limit)',
+                    'Account History (Historical drawdown behavior)',
+                    'Number and Type of Active Credit Lines',
+                    'Trended Credit Data (Velocity of drawdown)'
+                ],
+                chartData: {
+                    labels: ['Current Utilization', 'Historical Drawdown', 'Facility Type', 'Trended Velocity'],
+                    data: [50, 25, 15, 10]
+                }
+            }
+        };
+
+        let scoreComparisonChart;
+        let riskComponentChart;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderBureauCards();
+            renderScoreBureauSelector();
+            renderRiskComponentSelector();
+            initScoreComparisonChart();
+            initRiskComponentChart();
+            updateRiskComponentView('pd'); 
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+
+        function renderBureauCards() {
+            const container = document.getElementById('bureau-cards');
+            container.innerHTML = '';
+            Object.keys(bureauData).forEach(key => {
+                const bureau = bureauData[key];
+                const card = document.createElement('div');
+                card.className = 'content-card cursor-pointer';
+                card.innerHTML = `
+                    <h3 class="text-xl font-bold text-sky-800 mb-4 flex items-center"><span class="text-3xl mr-3">${bureau.icon}</span> ${bureau.name}</h3>
+                    <ul class="space-y-2 text-sm text-slate-600 list-inside">
+                        ${bureau.dataTypes.map(dt => `<li><span class="text-sky-600 font-bold">✓</span> ${dt}</li>`).join('')}
+                    </ul>
+                `;
+                container.appendChild(card);
+            });
+        }
+        
+        function renderScoreBureauSelector() {
+            const selector = document.getElementById('score-bureau-selector');
+            selector.innerHTML = '';
+            Object.keys(bureauData).forEach((key, index) => {
+                const bureau = bureauData[key];
+                const button = document.createElement('button');
+                button.className = 'nav-button px-4 py-2 rounded-full font-semibold text-slate-700 bg-slate-100 hover:bg-sky-100';
+                button.textContent = bureau.name;
+                button.dataset.bureauKey = key;
+                button.onclick = () => selectBureauForScores(key);
+                selector.appendChild(button);
+            });
+        }
+
+        function selectBureauForScores(bureauKey) {
+            const selector = document.getElementById('score-bureau-selector');
+            selector.querySelectorAll('button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.bureauKey === bureauKey);
+            });
+
+            const scoreDetailsContainer = document.getElementById('score-details-content');
+            const bureau = bureauData[bureauKey];
+            let scoreButtonsHTML = `<div class="flex flex-wrap gap-3 mb-6">`;
+            Object.keys(bureau.scores).forEach(scoreKey => {
+                scoreButtonsHTML += `<button class="nav-button px-3 py-1.5 text-sm rounded-full font-medium bg-slate-50 hover:bg-slate-200" onclick="displayScoreDetails('${bureauKey}', '${scoreKey}')">${bureau.scores[scoreKey].name}</button>`;
+            });
+            scoreButtonsHTML += `</div>`;
+            
+            scoreDetailsContainer.innerHTML = `
+                <h3 class="text-2xl font-bold text-slate-800 mb-4">${bureau.name} Scores</h3>
+                <p class="text-slate-500 mb-6">Select a specific score below to see its details and primary focus.</p>
+                ${scoreButtonsHTML}
+                <div id="score-info" class="p-4 bg-slate-50 rounded-lg min-h-[150px]">
+                    <p class="text-center text-slate-500 pt-8">Details will appear here.</p>
+                </div>`;
+                
+            updateScoreComparisonChart(bureauKey);
+        }
+        
+        function displayScoreDetails(bureauKey, scoreKey) {
+            const score = bureauData[bureauKey].scores[scoreKey];
+            const infoContainer = document.getElementById('score-info');
+            infoContainer.innerHTML = `
+                <h4 class="font-bold text-lg text-sky-700">${score.name}</h4>
+                <p class="text-sm text-slate-500 mb-2"><strong>Range:</strong> ${score.range}</p>
+                <p class="text-sm text-slate-600"><strong>Interpretation:</strong> ${score.interpretation}</p>
+                <p class="text-sm text-slate-600 mt-2"><strong>Primary Focus:</strong> ${score.focus}</p>
+            `;
+
+            document.querySelectorAll('#score-details-content button').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.textContent === score.name) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function initScoreComparisonChart() {
+            const ctx = document.getElementById('scoreComparisonChart').getContext('2d');
+            scoreComparisonChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Score Range (Normalized)',
+                        data: [],
+                        backgroundColor: 'rgba(3, 105, 161, 0.6)', // sky-700
+                        borderColor: 'rgba(3, 105, 161, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: true, text: 'Comparative Score Overview', font: { size: 16 } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `Normalized view of score ranges.`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateScoreComparisonChart(bureauKey) {
+            const bureau = bureauData[bureauKey];
+            const scores = bureau.scores;
+            scoreComparisonChart.data.labels = Object.values(scores).map(s => s.name);
+            scoreComparisonChart.data.datasets[0].data = Object.values(scores).map(() => 100); // Normalized for visual comparison
+            scoreComparisonChart.options.plugins.title.text = `${bureau.name} Score Overview`;
+            scoreComparisonChart.update();
+        }
+
+        function renderRiskComponentSelector() {
+            const selector = document.getElementById('risk-component-selector');
+            selector.innerHTML = '';
+            Object.keys(riskComponentData).forEach(key => {
+                const component = riskComponentData[key];
+                const button = document.createElement('button');
+                button.className = 'nav-button px-4 py-2 rounded-full font-semibold text-slate-700';
+                button.textContent = key.toUpperCase();
+                button.dataset.componentKey = key;
+                button.onclick = () => updateRiskComponentView(key);
+                selector.appendChild(button);
+            });
+        }
+
+        function updateRiskComponentView(componentKey) {
+            const component = riskComponentData[componentKey];
+
+            document.getElementById('risk-component-selector').querySelectorAll('button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.componentKey === componentKey);
+            });
+
+            document.getElementById('risk-component-title').textContent = component.title;
+            document.getElementById('risk-component-description').textContent = component.description;
+
+            const factorsContainer = document.getElementById('risk-component-factors');
+            factorsContainer.innerHTML = `
+                <p class="font-semibold text-slate-700 mb-2">Key Influencing Factors:</p>
+                <ul class="space-y-1.5 text-sm text-slate-600 list-inside">
+                    ${component.factors.map(f => `<li><span class="text-sky-600 font-bold">›</span> ${f}</li>`).join('')}
+                </ul>
+            `;
+            
+            updateRiskComponentChart(componentKey);
+        }
+
+        function initRiskComponentChart() {
+            const ctx = document.getElementById('riskComponentChart').getContext('2d');
+            riskComponentChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Factor Importance',
+                        data: [],
+                        backgroundColor: [
+                            'rgba(14, 165, 233, 0.7)', // sky-500
+                            'rgba(56, 189, 248, 0.7)', // sky-400
+                            'rgba(125, 211, 252, 0.7)',// sky-300
+                            'rgba(186, 230, 253, 0.7)',// sky-200
+                            'rgba(224, 242, 254, 0.7)' // sky-100
+                        ],
+                        borderColor: 'rgba(255, 255, 255, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'right' },
+                        title: { display: true, text: 'Relative Importance of Data Categories', font: { size: 16 } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function updateRiskComponentChart(componentKey) {
+            const component = riskComponentData[componentKey];
+            riskComponentChart.data.labels = component.chartData.labels;
+            riskComponentChart.data.datasets[0].data = component.chartData.data;
+            riskComponentChart.options.plugins.title.text = `Data Categories for ${componentKey.toUpperCase()}`;
+            riskComponentChart.update();
+        }
+
+    </script>
+</body>
+</html>
